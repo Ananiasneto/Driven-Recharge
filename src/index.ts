@@ -1,7 +1,10 @@
 import express, { json, Request, Response } from "express";
+import phoneRouter from "../src/routes/phone-router";
+
 
 const app=express();
 app.use(json());
+app.use(phoneRouter);
 
 app.get("/health",(req:Request,res:Response)=>{
         res.sendStatus(200);
