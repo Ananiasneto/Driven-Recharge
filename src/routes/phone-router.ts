@@ -4,7 +4,9 @@ import { Router } from "express";
 import phoneSchema from "../schemas/phone-schema";
 
 const phoneRouter=Router();
-phoneRouter.post("/phones",validateSchema(phoneSchema),cadastrarPhone)
+phoneRouter.post("/phones", (req, res, next) => {
+    cadastrarPhone(req, res).catch(next);
+});
 phoneRouter.get("/phones/:document",getTelefoneByDocument);
 
 export default phoneRouter;
