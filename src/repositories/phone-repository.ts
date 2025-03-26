@@ -1,5 +1,6 @@
 import { ClientData, PhoneData } from "../protocols/meusTipos";
 import db from "../database/database.conection";
+import { Request, Response } from "express";
 
 export async function getClientCpf(cpf: string) {
     const result = await db.query< {id: number} >(`
@@ -51,7 +52,7 @@ export async function carrierExiste(carrierName: string) {
 }
 
 export async function inserirPhone( phone: PhoneData,carrierId:number,client_id:number) {
-    const client=await db.query<ClientData>(
+    await db.query<ClientData>(
         `UPDATE client 
          SET phones = array_append(phones, $1) 
          WHERE id = $2
@@ -80,3 +81,15 @@ export async function inserirPhone( phone: PhoneData,carrierId:number,client_id:
    
         return result.rows[0];
     }
+
+    export async function getTelefonesByDocumentRepository(req:Request,res:Response){
+        const cpf = req.params.document;
+        const result = await db.query<{cpf: string}>(`
+           SELECT numero 
+           FROM phone 
+           JOIN client ON phone.client_id = client.id
+           WHERE client.cpf = $1
+       `, [cpf]);
+       return result.rows;
+       
+};

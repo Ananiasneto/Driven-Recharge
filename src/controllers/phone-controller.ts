@@ -1,7 +1,7 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import { cadastroPhone } from "../services/phone-services";
-import { PhoneData } from "../protocols/meusTipos";
 import httpStatus from 'http-status';
+import { getTelefonesByDocumentRepository } from "../repositories/phone-repository";
 
 
 export async function cadastrarPhone(req:Request,res:Response){
@@ -9,3 +9,8 @@ export async function cadastrarPhone(req:Request,res:Response){
         res.sendStatus(httpStatus.CREATED);
     
 }
+export async function getTelefoneByDocument(req: Request, res: Response){
+        
+            const result = await getTelefonesByDocumentRepository(req,res);
+            res.status(200).send(result);
+    }
