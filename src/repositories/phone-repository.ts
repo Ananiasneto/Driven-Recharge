@@ -12,8 +12,8 @@ export async function getCliente(clienteId:number) {
     const result = await db.query< ClientData >(`
         SELECT * FROM client WHERE id = $1
     `, [clienteId]);
-
-    return result.rows[0];
+        
+    return result.rows[0].phones;
 }
 export  async function createClient(cpf: string) {
     const result = await db.query<{ id: number }>(`
@@ -24,12 +24,13 @@ export  async function createClient(cpf: string) {
 
     return result.rows[0].id;
 }
-export async function phoneExiste(clientId: number) {
-    const result = await db.query<ClientData>(
-        `SELECT * FROM phone WHERE client_id = $1`, 
+export async function getPhones(clientId: number) {
+    const result = await db.query<{ phones: string[] }>( 
+        `SELECT phones FROM client WHERE id = $1`, 
         [clientId]
     );
-    return result.rows;
+    
+    return result.rows[0]?.phones || []; 
 }
 
 export async function phoneExisteBoolean(numero: string) {
@@ -37,7 +38,7 @@ export async function phoneExisteBoolean(numero: string) {
         `SELECT * FROM phone WHERE numero = $1`, 
         [numero]
     );
-    return result.rows.length > 0;
+    return result.rows[0].length > 0;
 }
 export async function carrierExiste(carrierName: string) {
     const result = await db.query<{ id: number }>(`
@@ -50,10 +51,11 @@ export async function carrierExiste(carrierName: string) {
 }
 
 export async function inserirPhone( phone: PhoneData,carrierId:number,client_id:number) {
-    await db.query<ClientData>(
+    const client=await db.query<ClientData>(
         `UPDATE client 
          SET phones = array_append(phones, $1) 
          WHERE id = $2
+         RETURNING *
          `
          ,
         [phone.phone_numero, client_id]
@@ -75,5 +77,6 @@ export async function inserirPhone( phone: PhoneData,carrierId:number,client_id:
                 phone.descricao
             ]
         );
+   
         return result.rows[0];
     }

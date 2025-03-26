@@ -1,6 +1,6 @@
 CREATE TABLE client (
     id SERIAL PRIMARY KEY,
-    cpf VARCHAR(11) UNIQUE NOT NULL,
+    cpf VARCHAR(11) NOT NULL,
     phones TEXT[] 
 );
 
@@ -19,12 +19,12 @@ CREATE TABLE phone (
     id SERIAL PRIMARY KEY,
     client_id INT NOT NULL,
     carrier_id INT NOT NULL,
-    numero VARCHAR(15) UNIQUE NOT NULL,
+    numero VARCHAR(15) NOT NULL,
     name VARCHAR(100) NOT NULL,
     descricao TEXT NOT NULL,
     FOREIGN KEY (client_id) REFERENCES client(id) ON DELETE CASCADE,
-    FOREIGN KEY (carrier_id) REFERENCES carriers(id) ON DELETE CASCADE,
-    CONSTRAINT unique_client_phone UNIQUE (client_id, numero)
+    FOREIGN KEY (carrier_id) REFERENCES carriers(id) ON DELETE CASCADE
+    
 );
 
 CREATE TABLE recargas (

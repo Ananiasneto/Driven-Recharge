@@ -1,17 +1,13 @@
 import express, { json, Request, Response } from "express";
 import phoneRouter from "../src/routes/phone-router";
 
-
-const app=express();
+const app = express();
 app.use(json());
+
+app.get("/health", (req: Request, res: Response) => {
+    res.sendStatus(200);
+});
+
 app.use(phoneRouter);
 
-app.get("/health",(req:Request,res:Response)=>{
-        res.sendStatus(200);
-})
-
-
-app.listen(5000,()=>{
-    console.log("server rodando liso!!")
-
-});
+app.listen(5000, () => console.log("rodando liso"));
