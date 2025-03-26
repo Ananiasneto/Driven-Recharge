@@ -7,12 +7,13 @@ import httpStatus from 'http-status';
 
 export async function cadastrarPhone(req: Request, res: Response) : Promise<void>{
     const phoneData = req.body as PhoneData;
-
+const result = await cadastroPhone(phoneData);
     try {
     
-        const result = await cadastroPhone(phoneData);
+        
         res.status(httpStatus.CREATED).json(result);
     } catch (error) {
+        console.log("entrou no catch")
         if (error.message.includes("CONFLITO")) {
             const errorMessage = error.message.split("CONFLITO:")[1].trim();
              res.status(httpStatus.CONFLICT).json({ 
