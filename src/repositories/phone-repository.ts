@@ -33,6 +33,15 @@ export async function getPhones(clientId: number) {
     
     return result.rows[0]?.phones || []; 
 }
+export async function getPhonesId(numero: string) {     
+    const result = await db.query<{ id: number }>( 
+        `SELECT id FROM phone WHERE numero = $1`, 
+        [numero]
+    );
+    return result.rows[0].id;
+    
+}
+
 
 export async function phoneExisteBoolean(numero: string) {
     const result = await db.query(
@@ -93,3 +102,4 @@ export async function inserirPhone( phone: PhoneData,carrierId:number,client_id:
        return result.rows;
        
 };
+

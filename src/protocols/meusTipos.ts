@@ -10,3 +10,7 @@ export type PhoneData={
     name:string,
     cpf:string
 }
+export type RechargeData={
+    phone_id: number,
+    amont: number
+}
