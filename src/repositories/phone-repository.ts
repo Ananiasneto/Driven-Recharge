@@ -33,23 +33,14 @@ export async function getPhones(clientId: number) {
     
     return result.rows[0]?.phones || []; 
 }
-export async function getPhonesId(numero: string) {     
-    const result = await db.query<{ id: number }>( 
-        `SELECT id FROM phone WHERE numero = $1`, 
-        [numero]
-    );
-    return result.rows[0].id;
+export async function getPhonesIdRepository(phone_numero: string) {
+    const result = await db.query<{ id: number }>(`
+        SELECT id FROM phone WHERE numero = $1
+    `, [phone_numero]);
     
+    return result.rows[0]?.id ?? null;
 }
 
-
-export async function phoneExisteBoolean(numero: string) {
-    const result = await db.query(
-        `SELECT * FROM phone WHERE numero = $1`, 
-        [numero]
-    );
-    return result.rows[0].length > 0;
-}
 export async function carrierExiste(carrierName: string) {
     const result = await db.query<{ id: number }>(`
         SELECT id FROM carriers WHERE name = $1

@@ -12,5 +12,5 @@ export type PhoneData={
 }
 export type RechargeData={
     phone_id: number,
-    amont: number
+    amount: number
 }

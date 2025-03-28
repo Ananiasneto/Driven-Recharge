@@ -1,4 +1,4 @@
-import { carrierExiste, createClient, getClientCpf, getCliente, getPhones, inserirPhone,phoneExisteBoolean } from "../repositories/phone-repository";
+import { carrierExiste, createClient, getClientCpf, getCliente, getPhones, inserirPhone} from "../repositories/phone-repository";
 import { PhoneData } from "../protocols/meusTipos";
 
 
