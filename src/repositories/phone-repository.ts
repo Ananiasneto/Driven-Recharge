@@ -41,10 +41,10 @@ export async function getPhonesIdRepository(phone_numero: string) {
     return result.rows[0]?.id ?? null;
 }
 
-export async function carrierExiste(carrierName: string) {
+export async function carrierExiste(carrier_name: string) {
     const result = await db.query<{ id: number }>(`
         SELECT id FROM carriers WHERE name = $1
-    `, [carrierName]);
+    `, [carrier_name]);
     if (result.rows.length === 0) {
         return null
     }

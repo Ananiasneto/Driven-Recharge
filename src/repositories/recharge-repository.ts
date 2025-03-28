@@ -1,5 +1,5 @@
 import db from "../database/database.conection";
-import { RechargeData } from "../protocols/meusTipos";
+import { PhoneData, RechargeData } from "../protocols/meusTipos";
 
 export async function getRechargeById(phone_id: number) {     
     const result = await db.query<RechargeData>( 
@@ -10,13 +10,13 @@ export async function getRechargeById(phone_id: number) {
     
 }
 export async function numeroExist(phone_id: number) {
-    const result = await db.query(`
+    const result = await db.query<PhoneData>(`
         select * from phone where id=$1
     `, [phone_id]);
     return result.rows.length > 0;
 }
-export async function insereRechargeBd(recharge: RechargeData): Promise<RechargeData> {
-    const result = await db.query(`
+export async function insereRechargeBd(recharge: RechargeData) {
+    const result = await db.query<RechargeData>(`
         INSERT INTO recargas (phone_id, amount)
         VALUES ($1, $2)
         RETURNING *
